@@ -5,7 +5,7 @@ import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
 export class RemoteAuthentication implements Authentication {
   constructor (
     private readonly url: string,
-    private readonly httpPostClient: HttpPostClient
+    private readonly httpPostClient: HttpPostClient<Authentication.Params, Authentication.Response>
   ) {}
 
   async auth (params: Authentication.Params): Promise<Authentication.Response> {
