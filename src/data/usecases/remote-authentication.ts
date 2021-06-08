@@ -9,7 +9,8 @@ export class RemoteAuthentication implements Authentication {
 
   async auth (params: Authentication.Params): Promise<Authentication.Response> {
     await this.httpPostClient.post({
-      url: this.url
+      url: this.url,
+      body: params
     })
     return null
   }
