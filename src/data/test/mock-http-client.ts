@@ -1,4 +1,4 @@
-import { HttpPostClient, HttpStatusCode } from '@/data/protocols/http'
+import { HttpPostClient, HttpStatusCode } from '@/data/protocols'
 
 export class HttpPostClientSpy<T, R> implements HttpPostClient<T, R> {
   params?: HttpPostClient.Params<T>
