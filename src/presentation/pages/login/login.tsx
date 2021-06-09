@@ -1,8 +1,6 @@
 import React from 'react'
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi'
-
 import { Button, Input, LoginHeader } from '@/presentation/components'
-
 import { Container, Content } from './styles'
 
 const Login: React.FC = () => (
