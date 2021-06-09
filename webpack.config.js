@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
@@ -15,6 +15,15 @@ module.exports = {
       '@': path.resolve(__dirname, 'src')
     }
   },
+  module: {
+    rules: [
+      {
+        test: /\.ts(x?)$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/
+      }
+    ]
+  },
   devServer: {
     contentBase: './public',
     writeToDisk: true,
@@ -25,6 +34,6 @@ module.exports = {
     'react-dom': 'ReactDOM'
   },
   plugins: [
-    new CleanWebpackPlugin
+    new CleanWebpackPlugin()
   ]
-};
+}
