@@ -1,7 +1,7 @@
 import React from 'react'
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi'
 
-import { LoginHeader } from '@/presentation/components'
+import { Input, LoginHeader } from '@/presentation/components'
 
 import { Container, Content } from './styles'
 
@@ -11,14 +11,8 @@ const Login: React.FC = () => (
       <LoginHeader />
       <form>
         <h3>Faça seu login</h3>
-        <div>
-          <FiMail size={20} />
-          <input name="email" placeholder="email"/>
-        </div>
-        <div>
-          <FiLock size={20} />
-          <input name="password" type="password" placeholder="Senha"/>
-        </div>
+        <Input icon={FiMail} name="email" placeholder="Email" />
+        <Input icon={FiLock} name="password" placeholder="Senha" />
         <button type='submit'>Entrar</button>
         <a href="#">Esqueci minha senha</a>
       </form>
