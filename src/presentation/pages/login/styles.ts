@@ -23,59 +23,11 @@ export const Content = Styled.div`
     text-align: center;
     margin: 4rem auto;
     
-
     h3 {
       margin-bottom: 2.5rem;
       font-size: 2.5rem;
       font-weight: bold;
       color: #444444;
-    }
-
-    div {
-      background: #EEEEF2;
-      border-radius: 10px;
-      border: 2px solid #EEEEF2;
-      padding: 16px;
-      width: 100%;
-      color: #A4A4B2;
-
-      display: flex;
-      align-items: center;
-      & + div {
-        margin-top: 8px;
-      }
-
-      input {
-        flex: 1;
-        background: transparent;
-        border: 0;
-
-        &::placeholder {
-          color: #A4A4B2;
-        }
-      }
-      svg {
-        margin-right: 16px;
-      }
-    }
-
-    
-
-    button {
-      background: #41C88E;
-      height: 56px;
-      border-radius: 10px;
-      border: 0;
-      padding: 0 16px;
-      color: #fff;
-      width: 100%;
-      font-weight: 500;
-      margin-top: 16px;
-      transition: background-color 0.2s;
-
-      &:hover {
-        opacity: 0.8;
-      }
     }
 
     a {
