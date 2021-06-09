@@ -1,17 +1,14 @@
 import React from 'react'
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi'
 
-import Logo from '@/presentation/components/logo/logo'
+import { LoginHeader } from '@/presentation/components'
 
-import { Container, Content, Header } from './styles'
+import { Container, Content } from './styles'
 
 const Login: React.FC = () => (
   <Container>
     <Content>
-      <Header>
-        <h1>Campeonato <strong>Play</strong></h1>
-        <Logo />
-      </Header>
+      <LoginHeader />
       <form>
         <h3>Faça seu login</h3>
         <div>
