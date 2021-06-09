@@ -20,6 +20,7 @@
     }
   },
   "include": [
-    "src"
+    "src",
+    "src/main/config/custom.d.ts"
   ]
 }
