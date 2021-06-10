@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi'
 import Context from '@/presentation/contexts/form/form-contexts'
 import { Button, FormStatus, Input, LoginHeader } from '@/presentation/components'
@@ -28,12 +28,17 @@ const Login: React.FC<Props> = ({ validation }) => {
     })
   }, [state.email, state.password])
 
+  const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+    setState({ ...state, isLoading: true })
+  }, [])
+
   return (
     <Container>
       <Content>
         <LoginHeader />
         <Context.Provider value={{ state, setState }}>
-          <form>
+          <form onSubmit={handleSubmit}>
             <h3>Faça seu login</h3>
             <Input icon={FiMail} name="email" placeholder="Email" />
             <Input icon={FiLock} name="password" placeholder="Senha" />
