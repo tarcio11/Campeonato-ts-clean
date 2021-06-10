@@ -41,7 +41,7 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
   }
 
   return (
-    <Container isFilled={isFilled} isFocused={isFocused}>
+    <Container isFilled={isFilled} isFocused={isFocused} data-testid="input-wrap">
       {Icon && <Icon size={20} />}
       <input
         name={name}
@@ -53,7 +53,7 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
         {...rest}
       />
 
-    { error && <span>{error}</span> }
+    { state.mainError && <span data-testid="main-error">{state.mainError}</span> }
     </Container>
   )
 }

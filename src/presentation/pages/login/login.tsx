@@ -19,7 +19,8 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
     emailError: '',
     passwordError: '',
     isLoading: false,
-    errorMessage: ''
+    errorMessage: '',
+    mainError: ''
   })
 
   useEffect(() => {
@@ -32,14 +33,22 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
-    if (state.isLoading || state.emailError || state.passwordError) {
-      return
+    try {
+      if (state.isLoading || state.emailError || state.passwordError) {
+        return
+      }
+      setState({ ...state, isLoading: true })
+      await authentication.auth({
+        email: state.email,
+        password: state.password
+      })
+    } catch (error) {
+      setState({
+        ...state,
+        isLoading: false,
+        mainError: error.message
+      })
     }
-    setState({ ...state, isLoading: true })
-    await authentication.auth({
-      email: state.email,
-      password: state.password
-    })
   }
 
   return (
@@ -47,7 +56,7 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
       <Content>
         <LoginHeader />
         <Context.Provider value={{ state, setState }}>
-          <form onSubmit={handleSubmit}>
+          <form data-testid="form" onSubmit={handleSubmit}>
             <h3>Faça seu login</h3>
             <Input icon={FiMail} name="email" placeholder="Email" />
             <Input icon={FiLock} name="password" placeholder="Senha" />
