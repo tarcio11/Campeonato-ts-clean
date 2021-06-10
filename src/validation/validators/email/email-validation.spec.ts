@@ -17,4 +17,11 @@ describe('EmailValidation', () => {
     const error = sut.validate({ [field]: faker.internet.email() })
     expect(error).toBeFalsy()
   })
+
+  test('Should return false if email is empty', () => {
+    const field = faker.database.column()
+    const sut = new EmailValidation(field)
+    const error = sut.validate({ [field]: '' })
+    expect(error).toBeFalsy()
+  })
 })
