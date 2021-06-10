@@ -13,7 +13,7 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
   const [isFocused, setIsFocused] = useState(false)
   const [isFilled, setIsFilled] = useState(false)
   const { state, setState } = useContext(Context)
-  const { error } = state
+  const error = state[`${name}Error`]
 
   const handleChange = useCallback((event: React.FocusEvent<HTMLInputElement>) => {
     setState({
