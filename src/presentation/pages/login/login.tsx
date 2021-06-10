@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi'
 import Context from '@/presentation/contexts/form/form-contexts'
 import { Button, FormStatus, Input, LoginHeader } from '@/presentation/components'
 import { Validation } from '@/presentation/protocols'
+import { Authentication } from '@/domain/usecases'
 
 import { Container, Content } from './styles'
-import { Authentication } from '@/domain/usecases'
 
 type Props = {
   validation: Validation
@@ -63,13 +64,13 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
             <Input icon={FiLock} name="password" placeholder="Senha" />
             <Button type="submit" data-testid="submit" disabled={!!state.emailError || !!state.passwordError}>Entrar</Button>
             <FormStatus />
-            <a href="#">Esqueci minha senha</a>
+            <Link to="#">Esqueci minhLink senha</Link>
           </form>
         </Context.Provider>
-        <a href="/signup">
+        <Link data-testid="signup" to="/signup">
           <FiLogIn />
           Criar conta
-      </a>
+      </Link>
       </Content>
     </Container>
   )
