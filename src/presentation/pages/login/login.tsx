@@ -1,16 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi'
 import Context from '@/presentation/contexts/form/form-contexts'
 import { Button, FormStatus, Input, LoginHeader } from '@/presentation/components'
 import { Validation } from '@/presentation/protocols'
 
 import { Container, Content } from './styles'
+import { Authentication } from '@/domain/usecases'
 
 type Props = {
   validation: Validation
+  authentication: Authentication
 }
 
-const Login: React.FC<Props> = ({ validation }) => {
+const Login: React.FC<Props> = ({ validation, authentication }) => {
   const [state, setState] = useState({
     email: '',
     password: '',
@@ -28,10 +30,14 @@ const Login: React.FC<Props> = ({ validation }) => {
     })
   }, [state.email, state.password])
 
-  const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     setState({ ...state, isLoading: true })
-  }, [])
+    await authentication.auth({
+      email: state.email,
+      password: state.password
+    })
+  }
 
   return (
     <Container>
