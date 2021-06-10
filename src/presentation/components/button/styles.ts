@@ -16,5 +16,13 @@ export const Container = Styled.div`
     &:hover {
       opacity: 0.8;
   }
+  &:disabled {
+    background-color: #CCC;
+    
+    &:hover: {
+      opacity: 1;
+      cursor: not-allowed;
+    }
+  }
 }
 `
