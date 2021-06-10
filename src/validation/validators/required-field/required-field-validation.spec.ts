@@ -3,17 +3,19 @@ import { RequiredFieldError } from '@/validation/errors'
 
 import faker from 'faker'
 
+const makeSut = (field: string): RequiredFieldsValidation => new RequiredFieldsValidation(field)
+
 describe('RequiredFieldsValidation', () => {
   test('Should return error if field is empty', () => {
     const field = faker.database.column()
-    const sut = new RequiredFieldsValidation(field)
+    const sut = makeSut(field)
     const error = sut.validate({ [field]: '' })
     expect(error).toEqual(new RequiredFieldError())
   })
 
   test('Should return falsy if field not empty', () => {
     const field = faker.database.column()
-    const sut = new RequiredFieldsValidation(field)
+    const sut = makeSut(field)
     const error = sut.validate({ [field]: faker.random.word() })
     expect(error).toBeFalsy()
   })
