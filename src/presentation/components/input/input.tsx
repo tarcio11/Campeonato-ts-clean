@@ -13,6 +13,7 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
   const [isFocused, setIsFocused] = useState(false)
   const [isFilled, setIsFilled] = useState(false)
   const { state, setState } = useContext(Context)
+  const { error } = state
 
   const handleChange = useCallback((event: React.FocusEvent<HTMLInputElement>) => {
     setState({
@@ -36,12 +37,15 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
       {Icon && <Icon size={20} />}
       <input
         name={name}
+        title={error}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         onChange={handleChange}
         ref={inputRef}
         {...rest}
       />
+
+    { error && <span>{error}</span> }
     </Container>
   )
 }
