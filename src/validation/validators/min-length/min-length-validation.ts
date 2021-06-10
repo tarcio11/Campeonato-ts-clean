@@ -3,7 +3,7 @@ import { FieldValidation } from '@/validation/protocols'
 
 export class MinLengthValidation implements FieldValidation {
   constructor (
-    private readonly field: string,
+    readonly field: string,
     private readonly minLength: number
   ) {}
 
