@@ -3,24 +3,41 @@ import { FieldValidation } from '@/validation/protocols'
 
 import faker from 'faker'
 
+class FieldValidationSpy implements FieldValidation {
+  error: Error = null
+
+  constructor (readonly field: string) {}
+
+  validate (input: object): Error {
+    return this.error
+  }
+}
+
+type SutTypes = {
+  sut: ValidationComposite
+  fieldValidationsSpy: FieldValidationSpy[]
+}
+
+const makeSut = (fieldName: string): SutTypes => {
+  const fieldValidationsSpy = [
+    new FieldValidationSpy(fieldName),
+    new FieldValidationSpy(fieldName)
+  ]
+  const sut = new ValidationComposite(fieldValidationsSpy)
+  return {
+    sut,
+    fieldValidationsSpy
+  }
+}
+
 describe('ValidationComposite', () => {
   test('Should return error if any validation fails', () => {
-    class FieldValidationSpy implements FieldValidation {
-      error: Error = null
-
-      constructor (readonly field: string) {}
-
-      validate (input: object): Error {
-        return this.error
-      }
-    }
     const fieldName = faker.database.column()
-    const fieldValidationSpy = [
-      new FieldValidationSpy(fieldName),
-      new FieldValidationSpy(fieldName)
-    ]
-    const sut = new ValidationComposite(fieldValidationSpy)
+    const { sut, fieldValidationsSpy } = makeSut(fieldName)
+    const errorMessage = faker.random.word()
+    fieldValidationsSpy[0].error = new Error(errorMessage)
+    fieldValidationsSpy[1].error = new Error(faker.random.words())
     const error = sut.validate(fieldName, { [fieldName]: faker.random.word() })
-    expect(error).toBeFalsy()
+    expect(error).toBe(errorMessage)
   })
 })
