@@ -4,11 +4,13 @@ import { Login } from '@/presentation/pages'
 import { Validation } from '@/presentation/protocols/validation'
 
 class ValidationSpy implements Validation {
-  input: object
+  fieldName: string
+  fieldValue: string
   errorMessage: string
 
-  validate (input: object): string {
-    this.input = input
+  validate (fieldName: string, fieldValue: string): string {
+    this.fieldName = fieldName
+    this.fieldValue = fieldValue
     return this.errorMessage
   }
 }
@@ -40,17 +42,15 @@ describe('Login Component', () => {
     const { sut, validationSpy } = makeSut()
     const emailInput = sut.getByPlaceholderText('Email')
     fireEvent.input(emailInput, { target: { value: 'any_email' } })
-    expect(validationSpy.input).toEqual({
-      email: 'any_email'
-    })
+    expect(validationSpy.fieldName).toBe('email')
+    expect(validationSpy.fieldValue).toBe('any_email')
   })
 
   test('Should call Validation with correct password', () => {
     const { sut, validationSpy } = makeSut()
     const passwordInput = sut.getByPlaceholderText('Senha')
     fireEvent.input(passwordInput, { target: { value: 'any_password' } })
-    expect(validationSpy.input).toEqual({
-      password: 'any_password'
-    })
+    expect(validationSpy.fieldName).toBe('password')
+    expect(validationSpy.fieldValue).toBe('any_password')
   })
 })
