@@ -1,21 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi'
 import Context from '@/presentation/contexts/form/form-contexts'
 import { Button, FormStatus, Input, LoginHeader } from '@/presentation/components'
+import { Validation } from '@/presentation/protocols/validation'
 
 import { Container, Content } from './styles'
 
-const Login: React.FC = () => {
-  const [state] = useState({
+type Props = {
+  validation: Validation
+}
+
+const Login: React.FC<Props> = ({ validation }) => {
+  const [state, setState] = useState({
+    email: '',
     isLoading: false,
     errorMessage: ''
   })
+
+  useEffect(() => {
+    validation.validate({ email: state.email })
+  }, [state.email])
 
   return (
     <Container>
       <Content>
         <LoginHeader />
-        <Context.Provider value={ state }>
+        <Context.Provider value={{ state, setState }}>
           <form>
             <h3>Faça seu login</h3>
             <Input icon={FiMail} name="email" placeholder="Email" />
