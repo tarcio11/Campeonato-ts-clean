@@ -44,4 +44,14 @@ describe('Login Component', () => {
     expect(validationSpy.fieldName).toBe('password')
     expect(validationSpy.fieldValue).toBe(password)
   })
+
+  test('Should show email error if Validation fails', () => {
+    const { sut, validationSpy } = makeSut()
+    const errorMessage = faker.random.words()
+    validationSpy.errorMessage = errorMessage
+    const emailInput = sut.getByPlaceholderText('Email')
+    fireEvent.input(emailInput, { target: { value: faker.internet.email() } })
+    const emailStatus = sut.getByPlaceholderText('Email')
+    expect(emailStatus.title).toBe(errorMessage)
+  })
 })
