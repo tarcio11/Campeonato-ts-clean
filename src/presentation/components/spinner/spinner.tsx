@@ -1,15 +1,15 @@
-import React, { ButtonHTMLAttributes } from 'react'
+import React from 'react'
 import { Container, Ball, Shadow, Gravity } from './styles'
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
-
-const Button: React.FC<ButtonProps> = ({ children, ...rest }) => (
-    <Container>
+const Spinner: React.FC = () => {
+  return (
+    <Container data-testid="error-wrap">
         <Shadow></Shadow>
         <Gravity>
             <Ball></Ball>
         </Gravity>
     </Container>
-)
+  )
+}
 
-export default Button
+export default Spinner
