@@ -32,12 +32,20 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
     setIsFilled(!!inputRef.current?.value)
   }, [])
 
+  const getTitle = (): string => {
+    if (error) {
+      return error
+    } else {
+      return 'Tudo certo!'
+    }
+  }
+
   return (
     <Container isFilled={isFilled} isFocused={isFocused}>
       {Icon && <Icon size={20} />}
       <input
         name={name}
-        title={error}
+        title={getTitle()}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         onChange={handleChange}
