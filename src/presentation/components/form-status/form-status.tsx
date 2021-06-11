@@ -5,11 +5,11 @@ import Context from '@/presentation/contexts/form/form-contexts'
 import { Container } from './styles'
 
 const FormStatus: React.FC = () => {
-  const { isLoading } = useContext(Context)
+  const { state } = useContext(Context)
 
   return (
     <Container data-testid="spinner">
-      { isLoading && <Spinner /> }
+      { state.isLoading && <Spinner /> }
     </Container>
   )
 }
