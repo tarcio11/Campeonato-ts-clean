@@ -141,9 +141,7 @@ describe('Login Component', () => {
     jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(error))
     simulateValidSubmit(sut)
     await waitFor(() => (sut.getByTestId('form')))
-    const mainError = sut.getAllByTestId('main-error')
     const spinner = sut.getByTestId('spinner')
-    expect(mainError[0].textContent).toBe(error.message)
     expect(spinner.childElementCount).toBe(0)
   })
 
