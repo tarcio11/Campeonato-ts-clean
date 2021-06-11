@@ -66,7 +66,7 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
             <Input icon={FiLock} name="password" placeholder="Senha" />
             <Button type="submit" data-testid="submit" disabled={!!state.emailError || !!state.passwordError}>Entrar</Button>
             <FormStatus />
-            <Link to="#">Esqueci minhLink senha</Link>
+            <Link to="#">Esqueci minha senha</Link>
           </form>
         </Context.Provider>
         <Link data-testid="signup" to="/signup">
