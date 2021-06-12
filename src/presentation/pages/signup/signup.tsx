@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { FiArrowLeft, FiMail, FiLock, FiUser } from 'react-icons/fi'
-
+import { Link, useHistory } from 'react-router-dom'
 import Context from '@/presentation/contexts/form/form-contexts'
 import { Button, FormStatus, Input, LoginHeader } from '@/presentation/components'
 
@@ -14,6 +14,7 @@ type Props = {
 }
 
 const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
+  const history = useHistory()
   const [state, setState] = useState({
     isLoading: false,
     name: '',
@@ -47,6 +48,7 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
         password: state.password
       })
       localStorage.setItem('accessToken', account.accessToken)
+      history.replace('/')
     } catch (error) {
       setState({
         ...state,
@@ -71,10 +73,10 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
               <FormStatus />
             </form>
           </Context.Provider>
-          <span>
+          <Link data-testid="login-link" replace to="/login">
             <FiArrowLeft />
             Voltar para login
-        </span>
+        </Link>
       </AnimationContainer>
       </Content>
     </Container>
