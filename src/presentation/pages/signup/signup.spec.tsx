@@ -30,7 +30,8 @@ describe('Login Component', () => {
   })
 
   test('Should start with initial state', () => {
-    const { sut } = makeSut()
+    const validationError = faker.random.words()
+    const { sut } = makeSut({ validationError })
     const spinner = sut.getByTestId('spinner')
     expect(spinner.childElementCount).toBe(0)
     const submitButton = sut.getByTestId('submit') as HTMLButtonElement
@@ -74,5 +75,14 @@ describe('Login Component', () => {
     const { sut } = makeSut()
     Helper.populateField(sut, 'Senha')
     Helper.testStatusForField(sut, 'Senha', 'Tudo certo!')
+  })
+
+  test('Should enable submit button if form valid', () => {
+    const { sut } = makeSut()
+    Helper.populateField(sut, 'Nome')
+    Helper.populateField(sut, 'Email')
+    Helper.populateField(sut, 'Senha')
+    const submitButton = sut.getByTestId('submit') as HTMLButtonElement
+    expect(submitButton.disabled).toBeFalsy()
   })
 })
