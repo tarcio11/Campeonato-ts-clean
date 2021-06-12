@@ -1,16 +1,19 @@
 import React from 'react'
 import 'jest-localstorage-mock'
 import { fireEvent, render, RenderResult, waitFor } from '@testing-library/react'
-import { Router } from 'react-router-dom'
-import { createMemoryHistory } from 'history'
 import { Login } from '@/presentation/pages'
+import { createMemoryHistory } from 'history'
+import { Router } from 'react-router-dom'
+import { Authentication } from '@/domain/usecases'
 import { AuthenticationSpy, Helper, ValidationStub } from '@/presentation/test'
 import { InvalidCredentialsError } from '@/domain/errors'
+import ApiContext from '@/presentation/contexts/api/api-context'
 import faker from 'faker'
 
 type SutTypes = {
   sut: RenderResult
   authenticationSpy: AuthenticationSpy
+  setCurrentAccountMock: (account: Authentication.Response) => void
 }
 
 type SutParams = {
@@ -22,14 +25,18 @@ const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const authenticationSpy = new AuthenticationSpy()
   validationStub.errorMessage = params?.validationError
+  const setCurrentAccountMock = jest.fn()
   const sut = render(
-    <Router history={history}>
-      <Login validation={validationStub} authentication={authenticationSpy} />
-    </Router>
+    <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
+      <Router history={history}>
+        <Login validation={validationStub} authentication={authenticationSpy} />
+      </Router>
+    </ApiContext.Provider>
   )
   return {
     sut,
-    authenticationSpy
+    authenticationSpy,
+    setCurrentAccountMock
   }
 }
 
@@ -132,11 +139,11 @@ describe('Login Component', () => {
     expect(spinner.childElementCount).toBe(0)
   })
 
-  test('Should add accessToken to localStorage on success', async () => {
-    const { sut, authenticationSpy } = makeSut()
+  test('Should call UpdateCurrentAccount on success', async () => {
+    const { sut, authenticationSpy, setCurrentAccountMock } = makeSut()
     await simulateValidSubmit(sut)
     await waitFor(() => (sut.getByTestId('form')))
-    expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.response.accessToken)
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(authenticationSpy.response)
     expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/')
   })

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { FiArrowLeft, FiMail, FiLock, FiUser } from 'react-icons/fi'
 import { Link, useHistory } from 'react-router-dom'
 import Context from '@/presentation/contexts/form/form-contexts'
+import ApiContext from '@/presentation/contexts/api/api-context'
 import { Button, FormStatus, Input, LoginHeader } from '@/presentation/components'
 
 import { Container, Content, AnimationContainer } from './styles'
@@ -14,6 +15,7 @@ type Props = {
 }
 
 const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
+  const { setCurrentAccount } = useContext(ApiContext)
   const history = useHistory()
   const [state, setState] = useState({
     isLoading: false,
@@ -47,7 +49,7 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
         email: state.email,
         password: state.password
       })
-      localStorage.setItem('accessToken', account.accessToken)
+      setCurrentAccount(account)
       history.replace('/')
     } catch (error) {
       setState({

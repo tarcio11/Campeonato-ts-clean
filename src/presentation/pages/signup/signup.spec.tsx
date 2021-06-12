@@ -1,16 +1,19 @@
 import React from 'react'
+import 'jest-localstorage-mock'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
-import 'jest-localstorage-mock'
+import { AddAccount } from '@/domain/usecases'
 import { fireEvent, render, RenderResult, waitFor } from '@testing-library/react'
 import { SignUp } from '@/presentation/pages'
 import { ValidationStub, Helper, AddAccountSpy } from '@/presentation/test'
 import { EmailInUseError } from '@/domain/errors'
+import ApiContext from '@/presentation/contexts/api/api-context'
 import faker from 'faker'
 
 type SutTypes = {
   sut: RenderResult
   addAccountSpy: AddAccountSpy
+  setCurrentAccountMock: (account: AddAccount.Response) => void
 }
 
 type SutParams = {
@@ -22,14 +25,18 @@ const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const addAccountSpy = new AddAccountSpy()
   validationStub.errorMessage = params?.validationError
+  const setCurrentAccountMock = jest.fn()
   const sut = render(
-    <Router history={history}>
-      <SignUp validation={validationStub} addAccount={addAccountSpy} />
-    </Router>
+    <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
+      <Router history={history}>
+        <SignUp validation={validationStub} addAccount={addAccountSpy} />
+      </Router>
+    </ApiContext.Provider>
   )
   return {
     sut,
-    addAccountSpy
+    addAccountSpy,
+    setCurrentAccountMock
   }
 }
 
@@ -149,11 +156,11 @@ describe('Login Component', () => {
     expect(spinner.childElementCount).toBe(0)
   })
 
-  test('Should add accessToken to localStorage on success', async () => {
-    const { sut, addAccountSpy } = makeSut()
+  test('Should call UpdateSetCurrentAccount on success', async () => {
+    const { sut, addAccountSpy, setCurrentAccountMock } = makeSut()
     await simulateValidSubmit(sut)
     await waitFor(() => (sut.getByTestId('form')))
-    expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', addAccountSpy.response.accessToken)
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(addAccountSpy.response)
     expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/')
   })
