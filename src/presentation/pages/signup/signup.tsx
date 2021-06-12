@@ -17,16 +17,19 @@ const SignUp: React.FC<Props> = ({ validation }) => {
     name: '',
     nameError: '',
     email: '',
-    emailError: ''
+    emailError: '',
+    password: '',
+    passwordError: ''
   })
 
   useEffect(() => {
     setState({
       ...state,
       nameError: validation.validate('name', { name: state.name }),
-      emailError: validation.validate('email', { email: state.email })
+      emailError: validation.validate('email', { email: state.email }),
+      passwordError: validation.validate('password', { password: state.password })
     })
-  }, [state.name, state.email])
+  }, [state.name, state.email, state.password])
 
   return (
     <Container>
