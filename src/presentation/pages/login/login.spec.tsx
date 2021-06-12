@@ -5,8 +5,8 @@ import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import { Login } from '@/presentation/pages'
 import { AuthenticationSpy, Helper, ValidationStub } from '@/presentation/test'
-import faker from 'faker'
 import { InvalidCredentialsError } from '@/domain/errors'
+import faker from 'faker'
 
 type SutTypes = {
   sut: RenderResult

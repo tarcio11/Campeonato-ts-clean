@@ -1,10 +1,12 @@
 import React from 'react'
+import { Router } from 'react-router-dom'
+import { createMemoryHistory } from 'history'
 import 'jest-localstorage-mock'
 import { fireEvent, render, RenderResult, waitFor } from '@testing-library/react'
 import { SignUp } from '@/presentation/pages'
 import { ValidationStub, Helper, AddAccountSpy } from '@/presentation/test'
-import faker from 'faker'
 import { EmailInUseError } from '@/domain/errors'
+import faker from 'faker'
 
 type SutTypes = {
   sut: RenderResult
@@ -15,12 +17,15 @@ type SutParams = {
   validationError: string
 }
 
+const history = createMemoryHistory()
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const addAccountSpy = new AddAccountSpy()
   validationStub.errorMessage = params?.validationError
   const sut = render(
+    <Router history={history}>
       <SignUp validation={validationStub} addAccount={addAccountSpy} />
+    </Router>
   )
   return {
     sut,
@@ -142,5 +147,14 @@ describe('Login Component', () => {
     await waitFor(() => (sut.getByTestId('form')))
     const spinner = sut.getByTestId('spinner')
     expect(spinner.childElementCount).toBe(0)
+  })
+
+  test('Should add accessToken to localStorage on success', async () => {
+    const { sut, addAccountSpy } = makeSut()
+    await simulateValidSubmit(sut)
+    await waitFor(() => (sut.getByTestId('form')))
+    expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', addAccountSpy.response.accessToken)
+    expect(history.length).toBe(1)
+    expect(history.location.pathname).toBe('/')
   })
 })
