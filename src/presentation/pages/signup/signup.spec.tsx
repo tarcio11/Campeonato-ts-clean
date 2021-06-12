@@ -124,4 +124,12 @@ describe('Login Component', () => {
     await simulateValidSubmit(sut)
     expect(addAccountSpy.callsCount).toBe(1)
   })
+
+  test('Should not call AddAccount if form is invalid', () => {
+    const validationError = faker.random.words()
+    const { sut, addAccountSpy } = makeSut({ validationError })
+    Helper.populateField(sut, 'Email')
+    fireEvent.submit(sut.getByTestId('submit'))
+    expect(addAccountSpy.callsCount).toBe(0)
+  })
 })
