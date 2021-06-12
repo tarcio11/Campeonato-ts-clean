@@ -6,12 +6,14 @@ import { Button, FormStatus, Input, LoginHeader } from '@/presentation/component
 
 import { Container, Content, AnimationContainer } from './styles'
 import { Validation } from '@/presentation/protocols'
+import { AddAccountSpy } from '@/presentation/test'
 
 type Props = {
   validation: Validation
+  addAccount: AddAccountSpy
 }
 
-const SignUp: React.FC<Props> = ({ validation }) => {
+const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
   const [state, setState] = useState({
     isLoading: false,
     name: '',
@@ -31,13 +33,22 @@ const SignUp: React.FC<Props> = ({ validation }) => {
     })
   }, [state.name, state.email, state.password])
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault()
+    await addAccount.add({
+      name: state.name,
+      email: state.email,
+      password: state.password
+    })
+  }
+
   return (
     <Container>
       <Content>
         <AnimationContainer>
           <LoginHeader />
           <Context.Provider value={{ state, setState }}>
-            <form data-testid="form">
+            <form data-testid="form" onSubmit={handleSubmit}>
               <h3>Faça seu Cadastro</h3>
               <Input icon={FiUser} name="name" placeholder="Nome" />
               <Input icon={FiMail} name="email" placeholder="Email" />
