@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { FiArrowLeft, FiMail, FiLock, FiUser } from 'react-icons/fi'
 
 import Context from '@/presentation/contexts/form/form-contexts'
@@ -19,14 +18,14 @@ const SignUp: React.FC = () => {
               <Input icon={FiUser} name="name" placeholder="Nome" />
               <Input icon={FiMail} name="email" placeholder="Email" />
               <Input icon={FiLock} type="password" name="password" placeholder="Senha" />
-              <Button type="submit">Cadastrar</Button>
+              <Button data-testid="submit" disabled type="submit">Cadastrar</Button>
               <FormStatus />
             </form>
           </Context.Provider>
-          <Link to="/signup">
+          <span>
             <FiArrowLeft />
             Voltar para login
-        </Link>
+        </span>
       </AnimationContainer>
       </Content>
     </Container>
