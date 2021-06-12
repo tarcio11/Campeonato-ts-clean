@@ -1,6 +1,6 @@
 import React from 'react'
 import 'jest-localstorage-mock'
-import { render, RenderResult } from '@testing-library/react'
+import { fireEvent, render, RenderResult, waitFor } from '@testing-library/react'
 import { SignUp } from '@/presentation/pages'
 import { ValidationStub, Helper } from '@/presentation/test'
 import faker from 'faker'
@@ -22,6 +22,15 @@ const makeSut = (params?: SutParams): SutTypes => {
   return {
     sut
   }
+}
+
+const simulateValidSubmit = async (sut: RenderResult, name = faker.name.findName(), email = faker.internet.email(), password = faker.internet.password()): Promise<void> => {
+  Helper.populateField(sut, 'Nome', name)
+  Helper.populateField(sut, 'Email', email)
+  Helper.populateField(sut, 'Senha', password)
+  const form = sut.getByTestId('form')
+  fireEvent.submit(form)
+  await waitFor(() => form)
 }
 
 describe('Login Component', () => {
@@ -84,5 +93,12 @@ describe('Login Component', () => {
     Helper.populateField(sut, 'Senha')
     const submitButton = sut.getByTestId('submit') as HTMLButtonElement
     expect(submitButton.disabled).toBeFalsy()
+  })
+
+  test('Should show spinner on submit', async () => {
+    const { sut } = makeSut()
+    await simulateValidSubmit(sut)
+    const spinner = sut.getByTestId('spinner')
+    expect(spinner).toBeTruthy()
   })
 })
