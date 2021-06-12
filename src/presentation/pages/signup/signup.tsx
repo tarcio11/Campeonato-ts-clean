@@ -41,11 +41,12 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
         return
       }
       setState({ ...state, isLoading: true })
-      await addAccount.add({
+      const account = await addAccount.add({
         name: state.name,
         email: state.email,
         password: state.password
       })
+      localStorage.setItem('accessToken', account.accessToken)
     } catch (error) {
       setState({
         ...state,
