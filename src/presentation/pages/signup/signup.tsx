@@ -42,7 +42,7 @@ const SignUp: React.FC<Props> = ({ validation }) => {
               <Input icon={FiUser} name="name" placeholder="Nome" />
               <Input icon={FiMail} name="email" placeholder="Email" />
               <Input icon={FiLock} type="password" name="password" placeholder="Senha" />
-              <Button data-testid="submit" disabled type="submit">Cadastrar</Button>
+              <Button data-testid="submit" type="submit" disabled={!!state.nameError || !!state.emailError || !!state.passwordError}>Cadastrar</Button>
               <FormStatus />
             </form>
           </Context.Provider>
