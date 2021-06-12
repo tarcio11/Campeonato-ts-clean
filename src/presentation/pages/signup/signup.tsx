@@ -6,11 +6,11 @@ import { Button, FormStatus, Input, LoginHeader } from '@/presentation/component
 
 import { Container, Content, AnimationContainer } from './styles'
 import { Validation } from '@/presentation/protocols'
-import { AddAccountSpy } from '@/presentation/test'
+import { AddAccount } from '@/domain/usecases'
 
 type Props = {
   validation: Validation
-  addAccount: AddAccountSpy
+  addAccount: AddAccount
 }
 
 const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
