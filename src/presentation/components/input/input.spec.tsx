@@ -1,15 +1,22 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import faker from 'faker'
+import { render, screen } from '@testing-library/react'
 import { Input } from '@/presentation/components'
 import Context from '@/presentation/contexts/form/form-contexts'
 
+const makeSut = (fieldName: string): void => {
+  render(
+    <Context.Provider value={{ state: {} }}>
+      <Input name={fieldName} placeholder="Email" />
+    </Context.Provider>
+  )
+}
+
 describe('Input component', () => {
   test('should be able to render an input', () => {
-    const { getByPlaceholderText } = render(
-      <Context.Provider value={{ state: {} }}>
-        <Input name='any_field' placeholder="Email" />
-      </Context.Provider>
-    )
-    expect(getByPlaceholderText('Email')).toBeTruthy()
+    const field = faker.database.column()
+    makeSut(field)
+    const inputWrap = screen.getByPlaceholderText('Email')
+    expect(inputWrap).toBeTruthy()
   })
 })
