@@ -37,7 +37,7 @@ const SignUp: React.FC<Props> = ({ validation }) => {
         <AnimationContainer>
           <LoginHeader />
           <Context.Provider value={{ state, setState }}>
-            <form>
+            <form data-testid="form">
               <h3>Faça seu Cadastro</h3>
               <Input icon={FiUser} name="name" placeholder="Nome" />
               <Input icon={FiMail} name="email" placeholder="Email" />
