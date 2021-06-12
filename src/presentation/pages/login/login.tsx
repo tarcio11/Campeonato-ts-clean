@@ -6,7 +6,7 @@ import { Button, FormStatus, Input, LoginHeader } from '@/presentation/component
 import { Validation } from '@/presentation/protocols'
 import { Authentication } from '@/domain/usecases'
 
-import { Container, Content } from './styles'
+import { Container, Content, AnimationContainer } from './styles'
 
 type Props = {
   validation: Validation
@@ -58,21 +58,23 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
   return (
     <Container>
       <Content>
-        <LoginHeader />
-        <Context.Provider value={{ state, setState }}>
-          <form data-testid="form" onSubmit={handleSubmit}>
-            <h3>Faça seu login</h3>
-            <Input icon={FiMail} name="email" placeholder="Email" />
-            <Input icon={FiLock} name="password" placeholder="Senha" />
-            <Button type="submit" data-testid="submit" disabled={!!state.emailError || !!state.passwordError}>Entrar</Button>
-            <FormStatus />
-            <Link to="#">Esqueci minha senha</Link>
-          </form>
-        </Context.Provider>
-        <Link data-testid="signup" to="/signup">
-          <FiLogIn />
-          Criar conta
-      </Link>
+        <AnimationContainer>
+          <LoginHeader />
+          <Context.Provider value={{ state, setState }}>
+            <form data-testid="form" onSubmit={handleSubmit}>
+              <h3>Faça seu login</h3>
+              <Input icon={FiMail} name="email" placeholder="Email" />
+              <Input icon={FiLock} type="password" name="password" placeholder="Senha" />
+              <Button type="submit" data-testid="submit" disabled={!!state.emailError || !!state.passwordError}>Entrar</Button>
+              <FormStatus />
+              <Link to="#">Esqueci minha senha</Link>
+            </form>
+          </Context.Provider>
+          <Link data-testid="signup" to="/signup">
+            <FiLogIn />
+            Criar conta
+          </Link>
+        </AnimationContainer>
       </Content>
     </Container>
   )
